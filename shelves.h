@@ -10,6 +10,7 @@ struct Shelf{
     bool ocupated;
     int productId;
     QDateTime timeStamp;
+    int stage;
 };
 
 class Shelves : public QAbstractListModel
@@ -20,7 +21,8 @@ public:
     enum Roles{
         OcupatedRole = Qt::UserRole + 1,
         ProductIdRole,
-        TimeStampRole
+        TimeStampRole,
+        StageRole
     };
 
     void loadShelves();

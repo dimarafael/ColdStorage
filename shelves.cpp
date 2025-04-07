@@ -5,7 +5,7 @@ Shelves::Shelves(QObject *parent, int quantity, int placeId)
 {
     m_placeId = placeId;
     for (int i = 0; i < quantity; ++i) {
-        m_shelves.append({false,0,QDateTime::currentDateTime()});
+        m_shelves.append({false,0,QDateTime::currentDateTime(), 0});
     }
 }
 
@@ -25,6 +25,7 @@ void Shelves::loadShelves()
                 m_shelves[shelf].ocupated = ocupated;
                 m_shelves[shelf].productId = ocupated? obj["product_id"].toInt() : 0;
                 m_shelves[shelf].timeStamp = QDateTime::fromString( obj["placedAt"].toString(), Qt::ISODate );
+                m_shelves[shelf].stage = shelf; /// !!!!!!!!!!!! Change to stage calculation
             }
         }
         endResetModel();
@@ -50,6 +51,8 @@ QVariant Shelves::data(const QModelIndex &index, int role) const
         return shelf.productId;
     case TimeStampRole:
         return shelf.timeStamp;
+    case StageRole:
+        return shelf.stage;
     }
 
     return QVariant();
@@ -60,6 +63,7 @@ QHash<int, QByteArray> Shelves::roleNames() const
     return {
         {OcupatedRole, "ocupated"},
         {ProductIdRole,"productId"},
-        {TimeStampRole,"timeStamp"}
+        {TimeStampRole,"timeStamp"},
+        {StageRole,"stage"}
     };
 }

@@ -94,15 +94,61 @@ Item{
                 height: listShelves.height / shelvesQty
 
                 Item{
+                    id: itemStageBackground
                     clip: true
                     anchors.fill: parent
                     visible: ocupated
                     Rectangle{
+                        id: rectStageBackground
                         anchors.bottom: parent.bottom
                         width: parent.width
                         height: parent.height + root.defMargin
-                        color: "lightblue"
+                        color: "grey"
                         radius: index === 0?  root.defMargin : 0
+                    }
+
+                    RadialGradient {
+                        id: gradientGreen
+                        anchors.fill: rectStageBackground
+                        source: rectStageBackground
+                        visible: stage === 0
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: "#61B94A" }
+                            GradientStop { position: 0.5; color: "#3E9149" }
+                        }
+                    }
+
+                    RadialGradient {
+                        id: gradientYellow
+                        anchors.fill: rectStageBackground
+                        source: rectStageBackground
+                        visible: stage === 1
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: "#FFF898" }
+                            GradientStop { position: 0.5; color: "#ffed00" }
+                        }
+                    }
+
+                    RadialGradient {
+                        id: gradientOrange
+                        anchors.fill: rectStageBackground
+                        source: rectStageBackground
+                        visible: stage === 2
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: "#E8AD69" }
+                            GradientStop { position: 0.5; color: "#e1871f" }
+                        }
+                    }
+
+                    RadialGradient {
+                        id: gradientRed
+                        anchors.fill: rectStageBackground
+                        source: rectStageBackground
+                        visible: stage === 3
+                        gradient: Gradient {
+                            GradientStop { position: 0; color: "#CA7154" }
+                            GradientStop { position: 0.5; color: "#EE2F37" }
+                        }
                     }
                 }
 
@@ -117,7 +163,7 @@ Item{
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: index + 1
+                    text: index + 1 + " : " + stage
                 }
             }
 
