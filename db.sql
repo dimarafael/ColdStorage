@@ -8,9 +8,9 @@ CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     code INT NOT NULL,
-    status1 INT NOT NULL,
-    status2 INT NOT NULL,
-    status3 INT NOT NULL
+    stage1Hours INT NOT NULL,
+    stage2Hours INT NOT NULL,
+    stage3Hours INT NOT NULL
 );
 
 CREATE TABLE shelf_product (

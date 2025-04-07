@@ -25,6 +25,7 @@ qt_add_qml_module(appColdStorage
     QML_FILES StoragePlaceDelegate.qml
     SOURCES shelves.h shelves.cpp
     RESOURCES db.sql
+    SOURCES products.h products.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

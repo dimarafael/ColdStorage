@@ -150,8 +150,9 @@ Item{
                             GradientStop { position: 0.5; color: "#EE2F37" }
                         }
                     }
-                }
+                } //itemStageBackground
 
+                // split line
                 Rectangle{
                     anchors.top: parent.top
                     width: parent.width
@@ -159,12 +160,66 @@ Item{
                     color: root.colorMain
                 }
 
-                Text {
-                    anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: index + 1 + " : " + stage
-                }
+                Item{
+                    id: itemTopPart
+                    visible: ocupated
+                    anchors{
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                    }
+                    height: parent.height / 2
+
+                    Text {
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: index + 1 + " : " + stage
+                        font.pixelSize: parent.height * 0.7
+                    }
+
+
+                } // itemTopPart
+
+                Item{
+                    id: itemBottomPart
+                    visible: ocupated
+                    anchors{
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                        bottomMargin: parent.height * 0.1
+                    }
+                    height: parent.height / 2
+
+                    Item{
+                        id: itemProgressBar
+                        anchors.centerIn: parent
+                        width: parent.width * 0.9
+                        height: parent.height * 0.7
+
+                        Rectangle{
+                            anchors.fill: parent
+                            color: Qt.lighter( "#7F7F7F" )
+                            radius: root.defMargin / 2
+                            border.width: 1
+                            border.color: root.colorMain
+                            Rectangle{
+                                anchors{
+                                    left: parent.left
+                                    top: parent.top
+                                    bottom: parent.bottom
+                                }
+                                width: parent.width * progress
+                                anchors.margins: 1
+                                radius: root.defMargin / 2
+                                color: "blue"
+
+                            }
+                        }
+                    }
+                } // itemBottomPart
+
             }
 
         }

@@ -5,7 +5,11 @@ Shelves::Shelves(QObject *parent, int quantity, int placeId)
 {
     m_placeId = placeId;
     for (int i = 0; i < quantity; ++i) {
-        m_shelves.append({false,0,QDateTime::currentDateTime(), 0});
+        m_shelves.append({false, // ocupated
+                          0, // productId
+                          QDateTime::currentDateTime(), // timeStamp
+                          0, // stage
+                          0}); // progress
     }
 }
 
@@ -20,12 +24,15 @@ void Shelves::loadShelves()
             QJsonObject obj = item.toObject();
             int shelf = obj["shelf"].toInt();
             bool ocupated = !obj["product_id"].isNull();
+            int productId= ocupated ? obj["product_id"].toInt() : 0;
+            QDateTime timeStamp = QDateTime::fromString( obj["placedAt"].toString(), Qt::ISODate );
 
             if(shelf >= 0 && shelf < m_shelves.size()){
                 m_shelves[shelf].ocupated = ocupated;
-                m_shelves[shelf].productId = ocupated? obj["product_id"].toInt() : 0;
-                m_shelves[shelf].timeStamp = QDateTime::fromString( obj["placedAt"].toString(), Qt::ISODate );
-                m_shelves[shelf].stage = shelf; /// !!!!!!!!!!!! Change to stage calculation
+                m_shelves[shelf].productId = productId;
+                m_shelves[shelf].timeStamp = timeStamp;
+                m_shelves[shelf].stage = ocupated ? calculateStage(productId, timeStamp) : -1;
+                m_shelves[shelf].progress = ocupated ? calculateProgress(productId, timeStamp) : 0;
             }
         }
         endResetModel();
@@ -53,6 +60,8 @@ QVariant Shelves::data(const QModelIndex &index, int role) const
         return shelf.timeStamp;
     case StageRole:
         return shelf.stage;
+    case StageProgress:
+        return shelf.progress;
     }
 
     return QVariant();
@@ -64,6 +73,18 @@ QHash<int, QByteArray> Shelves::roleNames() const
         {OcupatedRole, "ocupated"},
         {ProductIdRole,"productId"},
         {TimeStampRole,"timeStamp"},
-        {StageRole,"stage"}
+        {StageRole,"stage"},
+        {StageProgress,"progress"}
     };
 }
+
+int Shelves::calculateStage(int productId, QDateTime startTimeStamp)
+{
+    return productId;
+}
+
+float Shelves::calculateProgress(int productId, QDateTime startTimeStamp)
+{
+    return 0.5;
+}
+

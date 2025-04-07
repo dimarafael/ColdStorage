@@ -5,12 +5,14 @@
 #include <QObject>
 #include <QDateTime>
 #include "apiclient.h"
+#include "products.h"
 
 struct Shelf{
     bool ocupated;
     int productId;
     QDateTime timeStamp;
     int stage;
+    float progress;
 };
 
 class Shelves : public QAbstractListModel
@@ -22,7 +24,8 @@ public:
         OcupatedRole = Qt::UserRole + 1,
         ProductIdRole,
         TimeStampRole,
-        StageRole
+        StageRole,
+        StageProgress
     };
 
     void loadShelves();
@@ -37,6 +40,10 @@ private:
     int m_placeId;
     QVector<Shelf> m_shelves;
     ApiClient api;
+    Products &products = Products::getInstance();
+
+    int calculateStage(int productId, QDateTime startTimeStamp);
+    float calculateProgress(int productId, QDateTime startTimeStamp);
 };
 
 #endif // SHELVES_H
