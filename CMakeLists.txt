@@ -15,10 +15,16 @@ qt_add_executable(appColdStorage
 qt_add_qml_module(appColdStorage
     URI ColdStorage
     VERSION 1.0
+    RESOURCES
+        img/logo.png
+        img/gear.svg
     QML_FILES
         Main.qml
     SOURCES apiclient.h apiclient.cpp
     SOURCES storageplaces.h storageplaces.cpp
+    QML_FILES StoragePlaceDelegate.qml
+    SOURCES shelves.h shelves.cpp
+    RESOURCES db.sql
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

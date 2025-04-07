@@ -9,7 +9,7 @@
 #include <QJsonArray>
 
 namespace Constants {
-inline const QString API_BASE_URL = "http://10.0.10.64:1880/coldstorage";
+inline const QString API_BASE_URL = "http://10.0.10.64:1880/coldstorage/api";
 }
 
 class ApiClient : public QObject

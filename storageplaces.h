@@ -4,10 +4,13 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "apiclient.h"
+#include "shelves.h"
 
 struct Place{
+    int placeId;
     QString name; // place position name
     int shelvesQty; // shelves quanlity
+    Shelves* shelves;
 };
 
 class StoragePlaces : public QAbstractListModel
@@ -16,8 +19,10 @@ class StoragePlaces : public QAbstractListModel
 public:
     explicit StoragePlaces(QObject *parent = nullptr);
     enum Roles {
-        NameRole = Qt::UserRole + 1,
-        ShelvesQtyRole
+        PlaceIdRole = Qt::UserRole + 1,
+        NameRole,
+        ShelvesQtyRole,
+        ShelvesModelRole
     };
 
     // QAbstractItemModel interface
@@ -25,6 +30,8 @@ public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+
+    void loadStoragePlaces();
 
 private:
     QVector<Place> m_places;
