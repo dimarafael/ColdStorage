@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include <QDateTime>
+#include <QTimer>
 #include "apiclient.h"
 #include "products.h"
 
@@ -44,10 +45,14 @@ private:
     ApiClient api;
     Products &products = Products::getInstance();
 
-    int calculateStage(int productId, QDateTime startTimeStamp);
-    float calculateProgress(int productId, QDateTime startTimeStamp);
+    QTimer *m_timerRecalculateShelves;
+
+    int calculateStage(int productId, const QDateTime &startTimeStamp);
+    float calculateProgress(int productId, const QDateTime &startTimeStamp);
     float hoursElapsed(const QDateTime &pastTime);
     QString getElapsedText(const QDateTime &startTimeStamp);
+
+    void recalculateShelves();
 };
 
 #endif // SHELVES_H

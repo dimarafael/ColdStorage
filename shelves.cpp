@@ -12,6 +12,10 @@ Shelves::Shelves(QObject *parent, int quantity, int placeId)
                           0, // progress
                           0}); // elapsed
     }
+    m_timerRecalculateShelves = new QTimer(this);
+    m_timerRecalculateShelves->setInterval(60000);
+    connect(m_timerRecalculateShelves, &QTimer::timeout, this, &Shelves::recalculateShelves);
+    m_timerRecalculateShelves->start();
 }
 
 void Shelves::loadShelves()
@@ -83,7 +87,7 @@ QHash<int, QByteArray> Shelves::roleNames() const
     };
 }
 
-int Shelves::calculateStage(int productId, QDateTime startTimeStamp)
+int Shelves::calculateStage(int productId, const QDateTime &startTimeStamp)
 {
     Product product = products.getProductById(productId);
     int stage = 0;
@@ -98,7 +102,7 @@ int Shelves::calculateStage(int productId, QDateTime startTimeStamp)
     return stage;
 }
 
-float Shelves::calculateProgress(int productId, QDateTime startTimeStamp)
+float Shelves::calculateProgress(int productId, const QDateTime &startTimeStamp)
 {
     Product product = products.getProductById(productId);
     float progress = 0;
@@ -136,5 +140,21 @@ QString Shelves::getElapsedText(const QDateTime &startTimeStamp)
     int minutes = secs / 60;
 
     return QString("%1d %2h %3m").arg(days).arg(hours).arg(minutes);
+}
+
+void Shelves::recalculateShelves()
+{
+    beginResetModel();
+    for(int shelf = 0; shelf < m_shelves.size(); shelf++){
+        if(m_shelves[shelf].ocupated){
+            int productId = m_shelves[shelf].productId;
+            QDateTime timeStamp = m_shelves[shelf].timeStamp;
+
+            m_shelves[shelf].stage = calculateStage(productId, timeStamp);
+            m_shelves[shelf].progress = calculateProgress(productId, timeStamp);
+            m_shelves[shelf].elapsed = getElapsedText(timeStamp);
+        }
+    }
+    endResetModel();
 }
 
