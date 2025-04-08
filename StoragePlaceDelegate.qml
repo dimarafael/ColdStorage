@@ -174,7 +174,7 @@ Item{
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        text: index + 1 + " : " + stage
+                        text: elapsed
                         font.pixelSize: parent.height * 0.7
                     }
 

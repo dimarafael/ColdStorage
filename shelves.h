@@ -13,6 +13,7 @@ struct Shelf{
     QDateTime timeStamp;
     int stage;
     float progress;
+    QString elapsed;
 };
 
 class Shelves : public QAbstractListModel
@@ -25,7 +26,8 @@ public:
         ProductIdRole,
         TimeStampRole,
         StageRole,
-        StageProgress
+        StageProgressRole,
+        ElapsedRole
     };
 
     void loadShelves();
@@ -44,6 +46,8 @@ private:
 
     int calculateStage(int productId, QDateTime startTimeStamp);
     float calculateProgress(int productId, QDateTime startTimeStamp);
+    float hoursElapsed(const QDateTime &pastTime);
+    QString getElapsedText(const QDateTime &startTimeStamp);
 };
 
 #endif // SHELVES_H
