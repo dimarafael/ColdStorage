@@ -53,14 +53,15 @@ void Shelves::loadShelves()
 void Shelves::putProduct(int shelf, int productId)
 {
     qDebug() << "Put Product on place=" << m_placeId << "shelf=" << shelf << " productId=" << productId;
+    addShelfProductRecord(shelf, productId);
 }
 
 void Shelves::takeProduct(int shelf)
 {
     qDebug() << "Take from place=" << m_placeId << " shelf=" << shelf;
-    beginResetModel();
-    m_shelves[shelf].ocupated = false;
-    endResetModel();
+
+    addShelfProductRecord(shelf, -1);
+
 }
 
 int Shelves::rowCount(const QModelIndex &parent) const
@@ -174,5 +175,33 @@ void Shelves::recalculateShelves()
         }
     }
     endResetModel();
+}
+
+void Shelves::addShelfProductRecord(int shelf, int productId)
+{
+    QJsonObject data;
+
+    if (productId > 0) {
+        QJsonObject productObj;
+        productObj["id"] = productId;
+        data["products"] = productObj;
+    } else {
+        data["products"] = QJsonValue(QJsonValue::Null);
+    }
+
+    QJsonObject placeObj;
+    placeObj["id"] = m_placeId;
+    data["storage_places"] = placeObj;
+
+    data["shelf"] = shelf;
+
+    api.post("/mvom6omg0rgic5f/records", data, [this](bool success) {
+        if (success) {
+            this->loadShelves();
+            // qDebug() << "Record added in shelf_products";
+        } else {
+            qDebug() << "Error in adding the record in shelf_products";
+        }
+    });
 }
 

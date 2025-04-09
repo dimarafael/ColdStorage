@@ -56,6 +56,7 @@ private:
     QString getElapsedText(const QDateTime &startTimeStamp);
 
     void recalculateShelves();
+    void addShelfProductRecord(int shelf, int productId);
 };
 
 #endif // SHELVES_H

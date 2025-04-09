@@ -14,8 +14,6 @@ void ApiClient::get(const QString &endpoint, std::function<void(QJsonObject)> ca
         if (reply->error() == QNetworkReply::NoError) {
             QJsonObject jsonObject = QJsonDocument::fromJson(reply->readAll()).object();
             callback(jsonObject);
-            // QJsonArray jsonArray = QJsonDocument::fromJson(reply->readAll()).array();
-            // callback(jsonArray);
         } else {
             qDebug() << "API error: " << reply->errorString() + " URL: " << reply->url();
         }
@@ -31,6 +29,11 @@ void ApiClient::post(const QString &endpoint, const QJsonObject &data, std::func
     auto reply = m_manager.post(request, QJsonDocument(data).toJson());
 
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QJsonObject jsonObject = QJsonDocument::fromJson(reply->readAll()).object();
+        } else {
+            qDebug() << "API error: " << reply->errorString() + " URL: " << reply->url();
+        }
         callback(reply->error() == QNetworkReply::NoError);
         reply->deleteLater();
     });
