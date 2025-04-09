@@ -33,6 +33,9 @@ public:
 
     void loadShelves();
 
+    Q_INVOKABLE void putProduct(int shelf, int productId);
+    Q_INVOKABLE void takeProduct(int shelf);
+
     // QAbstractItemModel interface
 public:
     virtual int rowCount(const QModelIndex &parent) const override;

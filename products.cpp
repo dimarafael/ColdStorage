@@ -8,20 +8,24 @@ Products &Products::getInstance()
 
 void Products::loadProducts()
 {
-    api.get("/products", [this](const QJsonArray &response) {
+    api.get("/mt5c43cjt40an63/records", [this](const QJsonObject &response) {
         beginResetModel();
         m_products.clear();
-        for (const auto &item : response) {
+
+        QJsonArray listArray = response["list"].toArray();
+
+        for (const auto &item : listArray) {
             QJsonObject obj = item.toObject();
             m_products.append({
                 obj["id"].toInt(),
                 obj["name"].toString(),
                 obj["code"].toInt(),
-               static_cast<float>(obj["stage1Hours"].toDouble()),
-               static_cast<float>(obj["stage2Hours"].toDouble()),
-               static_cast<float>(obj["stage3Hours"].toDouble())
+                static_cast<float>(obj["stage1Hours"].toDouble()),
+                static_cast<float>(obj["stage2Hours"].toDouble()),
+                static_cast<float>(obj["stage3Hours"].toDouble())
             });
         }
+
         endResetModel();
     });
 }
@@ -36,6 +40,11 @@ Product Products::getProductById(int id) const
     Product notFound{};
     notFound.id = -1;
     return notFound;
+}
+
+QString Products::getProductNameById(int id)
+{
+    return getProductById(id).name;
 }
 
 Products::Products(QObject *parent)

@@ -37,6 +37,7 @@ public:
     void loadProducts();
 
     Q_INVOKABLE Product getProductById(int id) const;
+    Q_INVOKABLE QString getProductNameById(int id);
 
     // QAbstractItemModel interface
 public:

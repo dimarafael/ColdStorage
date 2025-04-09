@@ -10,6 +10,8 @@ Item{
     property color colorMain: "gray"
     property int fontSize1: root.height / 10
 
+    signal showDetailPopUp(var model, string name)
+
     Item{
         id: itemContent
         anchors{
@@ -25,6 +27,7 @@ Item{
             onClicked: {
                 focus: true
                 console.log("Delegate clicked " + (index+1).toString())
+                root.showDetailPopUp(shelvesModel, placeName)
             }
         }
         DropShadow {
@@ -41,7 +44,7 @@ Item{
             id: bgRectangle
             anchors.fill: parent
             radius: root.defMargin
-            color: Qt.lighter( "#7F7F7F" )
+            color: "#BEBEBE"
         }
 
         Item{
@@ -192,31 +195,14 @@ Item{
                     }
                     height: parent.height / 2
 
-                    Item{
+                    ProgressBar {
                         id: itemProgressBar
                         anchors.centerIn: parent
                         width: parent.width * 0.9
                         height: parent.height * 0.7
-
-                        Rectangle{
-                            anchors.fill: parent
-                            color: Qt.lighter( "#7F7F7F" )
-                            radius: root.defMargin / 2
-                            border.width: 1
-                            border.color: root.colorMain
-                            Rectangle{
-                                anchors{
-                                    left: parent.left
-                                    top: parent.top
-                                    bottom: parent.bottom
-                                }
-                                width: parent.width * progress
-                                anchors.margins: 1
-                                radius: root.defMargin / 2
-                                color: "blue"
-
-                            }
-                        }
+                        progress: progress
+                        colorMain: root.colorMain
+                        defMargin: root.defMargin
                     }
                 } // itemBottomPart
 

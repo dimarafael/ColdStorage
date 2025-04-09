@@ -163,18 +163,42 @@ Window {
                 shadowColor: window.shadowColor
                 colorMain: window.colorKometaGreen
                 visible: shelvesQty>0
+
+                onShowDetailPopUp: function(model, name){
+                    popUpShelves.show(model, name)
+                }
             }
         }
-
-
-
-
-
-
     } // itemRootContent
 
 
+    Rectangle{
+        id:popUpBG
+        x: 0
+        y: 0
+        width: window.width
+        height: window.height
+        color: "gray"
+        opacity: 0.7
+        visible: popUpShelves.visible
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                focus=true
+                popUpShelves.hide()
+            }
+        }
+    }
 
+    PopUpShelves {
+        id: popUpShelves
+        defMargin: window.defMargin
+        colorMain: window.colorKometaGreen
+        shadowColor: window.shadowColor
+        anchors.centerIn: parent
+        width: parent.width / 3
+        height: parent.height * 0.7
+    }
 
 
     InputPanel {

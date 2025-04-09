@@ -1,6 +1,6 @@
 CREATE TABLE storage_places (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) DEFAULT NULL,
     shelves INT
 );
 
@@ -22,3 +22,7 @@ CREATE TABLE shelf_product (
     FOREIGN KEY (place_id) REFERENCES storage_places(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
+
+user: cold_storage
+password: cold_storage
+

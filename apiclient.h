@@ -9,7 +9,8 @@
 #include <QJsonArray>
 
 namespace Constants {
-inline const QString API_BASE_URL = "http://10.0.10.64:1880/coldstorage/api";
+inline const QString API_BASE_URL = "http://10.0.10.64:8080/api/v2/tables";
+inline const QString API_TOKEN = "YGrXneYlcObAqH4VUM9YnC6dAkX25HEkpeSLtg46";
 }
 
 class ApiClient : public QObject
@@ -18,7 +19,7 @@ class ApiClient : public QObject
 public:
     explicit ApiClient(QObject *parent = nullptr);
 
-    void get(const QString &url, std::function<void(QJsonArray)> callback);
+    void get(const QString &url, std::function<void(QJsonObject)> callback);
     void post(const QString &url, const QJsonObject &data, std::function<void(bool)> callback);
     void del(const QString &url, std::function<void(bool)> callback);
 

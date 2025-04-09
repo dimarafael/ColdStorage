@@ -20,17 +20,21 @@ Shelves::Shelves(QObject *parent, int quantity, int placeId)
 
 void Shelves::loadShelves()
 {
-    api.get(QString("/shelves?storage_place_id=%1").arg(m_placeId), [this](QJsonArray jsonArray) {
+    api.get(QString("/mgr4ysvay4dj1nr/records?where=(place_id,eq,%1)").arg(m_placeId), [this](QJsonObject response) {
         for(int i=0; i < m_shelves.size(); i++){
             m_shelves[i].ocupated = false;
         }
+
         beginResetModel();
-        for (const auto &item : jsonArray) {
+
+        QJsonArray listArray = response["list"].toArray();
+
+        for (const auto &item : listArray) {
             QJsonObject obj = item.toObject();
             int shelf = obj["shelf"].toInt();
             bool ocupated = !obj["product_id"].isNull();
-            int productId= ocupated ? obj["product_id"].toInt() : 0;
-            QDateTime timeStamp = QDateTime::fromString( obj["placedAt"].toString(), Qt::ISODate );
+            int productId = ocupated ? obj["product_id"].toInt() : 0;
+            QDateTime timeStamp = QDateTime::fromString(obj["placedAt"].toString(), Qt::ISODate);
 
             if(shelf >= 0 && shelf < m_shelves.size()){
                 m_shelves[shelf].ocupated = ocupated;
@@ -41,8 +45,22 @@ void Shelves::loadShelves()
                 m_shelves[shelf].elapsed = ocupated ? getElapsedText(timeStamp) : 0;
             }
         }
+
         endResetModel();
     });
+}
+
+void Shelves::putProduct(int shelf, int productId)
+{
+    qDebug() << "Put Product on place=" << m_placeId << "shelf=" << shelf << " productId=" << productId;
+}
+
+void Shelves::takeProduct(int shelf)
+{
+    qDebug() << "Take from place=" << m_placeId << " shelf=" << shelf;
+    beginResetModel();
+    m_shelves[shelf].ocupated = false;
+    endResetModel();
 }
 
 int Shelves::rowCount(const QModelIndex &parent) const

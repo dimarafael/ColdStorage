@@ -40,10 +40,13 @@ QHash<int, QByteArray> StoragePlaces::roleNames() const
 
 void StoragePlaces::loadStoragePlaces()
 {
-    api.get("/storage_places", [this](QJsonArray jsonArray) {
+    api.get("/mcxfry38i1fftgm/records", [this](QJsonObject jsonResponse) {
         beginResetModel();
         m_places.clear();
-        for (const auto &item : jsonArray) {
+
+        QJsonArray listArray = jsonResponse["list"].toArray();
+
+        for (const auto &item : listArray) {
             QJsonObject obj = item.toObject();
             int placeId = obj["id"].toInt();
             int shelvesQty = obj["shelves"].toInt();
@@ -56,6 +59,9 @@ void StoragePlaces::loadStoragePlaces()
                 shelves
             });
         }
+
+        qDebug() << "loadStoragePlaces: size=" << m_places.size();
+
         endResetModel();
     });
 }
