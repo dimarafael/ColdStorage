@@ -34,7 +34,7 @@ void Shelves::loadShelves()
             int shelf = obj["shelf"].toInt();
             bool ocupated = !obj["product_id"].isNull();
             int productId = ocupated ? obj["product_id"].toInt() : 0;
-            QDateTime timeStamp = QDateTime::fromString(obj["placedAt"].toString(), Qt::ISODate);
+            QDateTime timeStamp = QDateTime::fromString(obj["ts"].toString(), Qt::ISODate);
 
             if(shelf >= 0 && shelf < m_shelves.size()){
                 m_shelves[shelf].ocupated = ocupated;
@@ -42,7 +42,7 @@ void Shelves::loadShelves()
                 m_shelves[shelf].timeStamp = timeStamp;
                 m_shelves[shelf].stage = ocupated ? calculateStage(productId, timeStamp) : -1;
                 m_shelves[shelf].progress = ocupated ? calculateProgress(productId, timeStamp) : 0;
-                m_shelves[shelf].elapsed = ocupated ? getElapsedText(timeStamp) : 0;
+                m_shelves[shelf].elapsed = ocupated ? getElapsedText(timeStamp) : "";
             }
         }
 
