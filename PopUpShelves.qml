@@ -1,12 +1,12 @@
 import QtQuick
 import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
-// import com.kometa.StoragePlaces
 import com.kometa.Products
 
 Item{
     id: root
     visible: false
+    opacity: 0.0
     property int defMargin: 5
     property color colorMain: "gray"
     property color shadowColor: "#88000000"
@@ -18,11 +18,37 @@ Item{
     function show(model, name) {
         root.detailModel = model
         root.placeName = name
-        root.visible = true
+        root.opacity = 1
     }
 
     function hide(){
-        root.visible = false
+        root.opacity = 0
+    }
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    onOpacityChanged: {
+        if (root.opacity === 0)
+            root.visible = false
+        else
+            root.visible = true
+    }
+
+    onVisibleChanged:{
+        popUpStop.opacity = 0
+        root.x = (window.width - root.width) / 2
+    }
+
+    Behavior on x {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
     }
 
     DropShadow {
@@ -106,7 +132,9 @@ Item{
                 onClicked: {
                     console.log(root.placeName + " : shelf=" + index + " ocupated=" + ocupated)
                     if (ocupated) {
-                        detailModel.takeProduct(index)
+                        root.x = (window.width - root.width) / 2 - window.width * 0.25
+                        popUpStop.shelf = index
+                        popUpStop.opacity = 1
                     } else {
                         detailModel.putProduct(index, 1)
                     }
@@ -221,7 +249,7 @@ Item{
                 }
 
 
-            } // itemTopPart
+            } // item2ndPart
 
             Item{
                 id: itemBottomPart
@@ -234,16 +262,32 @@ Item{
                 }
                 height: parent.height / 3
 
-                ProgressBar {
+                MyProgressBar {
                     id: itemProgressBar
                     anchors.centerIn: parent
                     width: parent.width * 0.9
                     height: parent.height * 0.7
-                    progress: progress
+                    progressValue: progressValue
                     colorMain: root.colorMain
                     defMargin: root.defMargin
                 }
             } // itemBottomPart
+
+            Item{
+                id: itemShelfNumber
+                anchors.left: parent.left
+                anchors.top: parent.top
+                height: parent.height / 3
+                width: height
+                Text{
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.bold: true
+                    font.pixelSize: height
+                    text: index + 1
+                }
+            }
 
         }
 
@@ -256,6 +300,35 @@ Item{
         border.color: colorMain
         border.width: 1
         color: "transparent"
+    }
+
+    DropShadow {
+        anchors.fill: popUpStop
+        source: popUpStop
+        horizontalOffset: root.defMargin / 2
+        verticalOffset: root.defMargin / 2
+        radius: 8.0
+        samples: 17
+        color: root.shadowColor
+        opacity: 0.8
+        visible: popUpStop.opacity > 0.9
+    }
+    PopUpStop{
+        id: popUpStop
+        anchors.verticalCenter: parent.verticalCenter
+        x: root.width * 1.2
+        width: root.width
+        height: root.width * 0.7
+        radius: root.defMargin
+        buttonWidth: width / 3
+        fontSize: root.fontSize1 / 2
+        placeName: root.placeName
+        onClosed: {
+            root.x = (window.width - root.width) / 2
+        }
+        onStop: shelf => {
+            detailModel.takeProduct(shelf)
+        }
     }
 
 }

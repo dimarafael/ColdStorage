@@ -6,7 +6,7 @@ import com.kometa.StoragePlaces
 Item{
     id: root
     
-    property real progress: 0
+    property real progressValue: 0
     property int defMargin: 5
     property color colorMain: "gray"
     
@@ -22,7 +22,7 @@ Item{
                 top: parent.top
                 bottom: parent.bottom
             }
-            width: parent.width * progress
+            width: parent.width * progressValue
             anchors.margins: 1
             radius: root.defMargin / 2
             color: "blue"

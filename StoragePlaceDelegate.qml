@@ -195,12 +195,12 @@ Item{
                     }
                     height: parent.height / 2
 
-                    ProgressBar {
+                    MyProgressBar {
                         id: itemProgressBar
                         anchors.centerIn: parent
                         width: parent.width * 0.9
                         height: parent.height * 0.7
-                        progress: progress
+                        progressValue: progress
                         colorMain: root.colorMain
                         defMargin: root.defMargin
                     }

@@ -179,14 +179,28 @@ Window {
         width: window.width
         height: window.height
         color: "gray"
-        opacity: 0.7
-        visible: popUpShelves.visible
+        opacity: popUpShelves.visible ? 0.7 : 0
+        visible: false
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 focus=true
                 popUpShelves.hide()
             }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 100
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+        onOpacityChanged: {
+            if (popUpBG.opacity === 0)
+                popUpBG.visible = false
+            else
+                popUpBG.visible = true
         }
     }
 
@@ -195,9 +209,11 @@ Window {
         defMargin: window.defMargin
         colorMain: window.colorKometaGreen
         shadowColor: window.shadowColor
-        anchors.centerIn: parent
         width: parent.width / 3
         height: parent.height * 0.7
+        // anchors.centerIn: parent
+        anchors.verticalCenter: parent.verticalCenter
+        x: (parent.width - width) / 2
     }
 
 

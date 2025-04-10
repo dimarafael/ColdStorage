@@ -131,14 +131,13 @@ float Shelves::calculateProgress(int productId, const QDateTime &startTimeStamp)
         if (elapsed <= product.stage1Hours){
             progress = elapsed / product.stage1Hours;
         } else if (elapsed > product.stage1Hours && elapsed <= product.stage2Hours){
-            progress = elapsed / (product.stage2Hours - product.stage1Hours);
+            progress = (elapsed - product.stage1Hours) / (product.stage2Hours - product.stage1Hours);
         }  else if (elapsed > product.stage2Hours && elapsed <= product.stage3Hours){
-            progress = elapsed / (product.stage3Hours - product.stage2Hours);
+            progress = (elapsed - product.stage2Hours) / (product.stage3Hours - product.stage2Hours);
         }  else if (elapsed > product.stage3Hours){
             progress = 1;
         }
     }
-
     return progress;
 }
 

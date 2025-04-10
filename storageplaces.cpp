@@ -40,7 +40,7 @@ QHash<int, QByteArray> StoragePlaces::roleNames() const
 
 void StoragePlaces::loadStoragePlaces()
 {
-    api.get("/mcxfry38i1fftgm/records", [this](QJsonObject jsonResponse) {
+    api.get("/mcxfry38i1fftgm/records?limit=100", [this](QJsonObject jsonResponse) {
         beginResetModel();
         m_places.clear();
 

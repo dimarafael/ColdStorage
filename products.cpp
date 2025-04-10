@@ -8,7 +8,7 @@ Products &Products::getInstance()
 
 void Products::loadProducts()
 {
-    api.get("/mt5c43cjt40an63/records", [this](const QJsonObject &response) {
+    api.get("/mt5c43cjt40an63/records?limit=100", [this](const QJsonObject &response) {
         beginResetModel();
         m_products.clear();
 
