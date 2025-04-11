@@ -222,15 +222,47 @@ Item{
                     top: parent.top
                     left: parent.left
                     right: parent.right
+                    leftMargin: height
+                    rightMargin: height / 4
                 }
                 height: parent.height / 3
+                clip: true
 
                 Text {
-                    anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
+                    id: txtProductName
+                    // anchors.fill: parent
+                    // horizontalAlignment: Text.AlignHCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: parent.height
                     verticalAlignment: Text.AlignVCenter
                     text: Products.getProductNameById(productId)
                     font.pixelSize: parent.height * 0.7
+
+                    SequentialAnimation{
+                        id: animationName
+                        running: (root.visible === true) && (itemTopPart.width < txtProductName.width)
+                        loops: Animation.Infinite
+                        alwaysRunToEnd: true
+
+                        NumberAnimation{
+                            id: ani1
+                            target: txtProductName
+                            property: "x"
+                            from: 0
+                            to: itemTopPart.width - txtProductName.width
+                            duration: 2000
+                        }
+                        PauseAnimation { duration: 500 }
+                        NumberAnimation{
+                            id: ani2
+                            targets: txtProductName
+                            property: "x"
+                            from: itemTopPart.width - txtProductName.width
+                            to: 0
+                            duration: 2000
+                        }
+                        PauseAnimation { duration: 500 }
+                    }
                 }
 
 
