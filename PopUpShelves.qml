@@ -136,7 +136,7 @@ Item{
                         popUpStop.shelf = index
                         popUpStop.opacity = 1
                     } else {
-                        detailModel.putProduct(index, 1)
+                        detailModel.putProduct(index, 1, 123.4)
                     }
                 }
             }

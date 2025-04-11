@@ -19,6 +19,7 @@ CREATE TABLE shelf_product (
     shelf INT NOT NULL,
     product_id INT DEFAULT NULL,
     ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    weight FLOAT DEFAULT NULL,
     FOREIGN KEY (place_id) REFERENCES storage_places(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );

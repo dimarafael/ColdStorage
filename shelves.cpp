@@ -50,18 +50,17 @@ void Shelves::loadShelves()
     });
 }
 
-void Shelves::putProduct(int shelf, int productId)
+void Shelves::putProduct(int shelf, int productId, float weight)
 {
-    qDebug() << "Put Product on place=" << m_placeId << "shelf=" << shelf << " productId=" << productId;
-    addShelfProductRecord(shelf, productId);
+    qDebug() << "Put Product on place=" << m_placeId << "shelf=" << shelf << " productId=" << productId << " weight=" << weight;
+    addShelfProductRecord(shelf, productId, weight);
 }
 
 void Shelves::takeProduct(int shelf)
 {
     qDebug() << "Take from place=" << m_placeId << " shelf=" << shelf;
 
-    addShelfProductRecord(shelf, -1);
-
+    addShelfProductRecord(shelf, -1, -1);
 }
 
 int Shelves::rowCount(const QModelIndex &parent) const
@@ -176,7 +175,7 @@ void Shelves::recalculateShelves()
     endResetModel();
 }
 
-void Shelves::addShelfProductRecord(int shelf, int productId)
+void Shelves::addShelfProductRecord(int shelf, int productId, float weight)
 {
     QJsonObject data;
 
@@ -193,6 +192,14 @@ void Shelves::addShelfProductRecord(int shelf, int productId)
     data["storage_places"] = placeObj;
 
     data["shelf"] = shelf;
+
+    if (weight > 0){
+        data["weight"] = weight;
+    } else {
+        data["weight"] = QJsonValue(QJsonValue::Null);
+    }
+
+    qDebug() << "data: " << data;
 
     api.post("/mvom6omg0rgic5f/records", data, [this](bool success) {
         if (success) {

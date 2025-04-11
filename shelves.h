@@ -33,7 +33,7 @@ public:
 
     void loadShelves();
 
-    Q_INVOKABLE void putProduct(int shelf, int productId);
+    Q_INVOKABLE void putProduct(int shelf, int productId, float weight);
     Q_INVOKABLE void takeProduct(int shelf);
 
     // QAbstractItemModel interface
@@ -56,7 +56,7 @@ private:
     QString getElapsedText(const QDateTime &startTimeStamp);
 
     void recalculateShelves();
-    void addShelfProductRecord(int shelf, int productId);
+    void addShelfProductRecord(int shelf, int productId, float weight);
 };
 
 #endif // SHELVES_H
