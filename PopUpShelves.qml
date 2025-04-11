@@ -230,8 +230,6 @@ Item{
 
                 Text {
                     id: txtProductName
-                    // anchors.fill: parent
-                    // horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
@@ -305,7 +303,7 @@ Item{
                     anchors.centerIn: parent
                     width: parent.width * 0.9
                     height: parent.height * 0.7
-                    progressValue: progressValue
+                    progressValue: progress
                     colorMain: root.colorMain
                     defMargin: root.defMargin
                 }

@@ -32,6 +32,7 @@ qt_add_qml_module(appColdStorage
     QML_FILES PopUpStop.qml
     QML_FILES PopUpStart.qml
     QML_FILES SetpointField.qml
+    QML_FILES MyClock.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

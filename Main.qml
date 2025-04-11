@@ -90,6 +90,16 @@ Window {
                 source: "img/logo.png"
             }
 
+            MyClock {
+                id: itemClock
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                textColor: "white"
+            }
+
             Item{
                 id: itemGear
                 anchors{

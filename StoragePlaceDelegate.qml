@@ -26,7 +26,7 @@ Item{
             anchors.fill: parent
             onClicked: {
                 focus: true
-                console.log("Delegate clicked " + (index+1).toString())
+                // console.log("Delegate clicked " + (index+1).toString())
                 root.showDetailPopUp(shelvesModel, placeName)
             }
         }
