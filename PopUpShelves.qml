@@ -41,6 +41,7 @@ Item{
 
     onVisibleChanged:{
         popUpStop.opacity = 0
+        popUpStart.opacity = 0
         root.x = (window.width - root.width) / 2
     }
 
@@ -131,12 +132,17 @@ Item{
                 anchors.fill: parent
                 onClicked: {
                     console.log(root.placeName + " : shelf=" + index + " ocupated=" + ocupated)
+                    root.x = (window.width - root.width) / 2 - window.width * 0.25
                     if (ocupated) {
-                        root.x = (window.width - root.width) / 2 - window.width * 0.25
+                        popUpStart.opacity = 0
+
                         popUpStop.shelf = index
                         popUpStop.opacity = 1
-                    } else {
-                        detailModel.putProduct(index, 1, 123.4)
+                    } else {                        
+                        popUpStop.opacity = 0
+
+                        popUpStart.shelf = index
+                        popUpStart.opacity = 1
                     }
                 }
             }
@@ -328,6 +334,24 @@ Item{
         }
         onStop: shelf => {
             detailModel.takeProduct(shelf)
+        }
+    }
+
+    PopUpStart{
+        id: popUpStart
+        anchors.verticalCenter: parent.verticalCenter
+        x: root.width * 1.15
+        width: window.width * 0.5
+        height: window.height * 0.8
+        radius: root.defMargin
+        buttonWidth: width / 3
+        fontSize: root.fontSize1 / 2
+        placeName: root.placeName
+        onClosed: {
+            root.x = (window.width - root.width) / 2
+        }
+        onStart: (shelf, productId, weight) => {
+            detailModel.putProduct(shelf, productId, weight)
         }
     }
 

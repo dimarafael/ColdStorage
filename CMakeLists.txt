@@ -18,6 +18,7 @@ qt_add_qml_module(appColdStorage
     RESOURCES
         img/logo.png
         img/gear.svg
+        img/scale.svg
     QML_FILES
         Main.qml
     SOURCES apiclient.h apiclient.cpp
@@ -30,6 +31,7 @@ qt_add_qml_module(appColdStorage
     QML_FILES MyProgressBar.qml
     QML_FILES PopUpStop.qml
     QML_FILES PopUpStart.qml
+    QML_FILES SetpointField.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
