@@ -52,14 +52,11 @@ void Shelves::loadShelves()
 
 void Shelves::putProduct(int shelf, int productId, float weight)
 {
-    qDebug() << "Put Product on place=" << m_placeId << "shelf=" << shelf << " productId=" << productId << " weight=" << weight;
     addShelfProductRecord(shelf, productId, weight);
 }
 
 void Shelves::takeProduct(int shelf)
 {
-    qDebug() << "Take from place=" << m_placeId << " shelf=" << shelf;
-
     addShelfProductRecord(shelf, -1, -1);
 }
 
@@ -198,8 +195,6 @@ void Shelves::addShelfProductRecord(int shelf, int productId, float weight)
     } else {
         data["weight"] = QJsonValue(QJsonValue::Null);
     }
-
-    qDebug() << "data: " << data;
 
     api.post("/mvom6omg0rgic5f/records", data, [this](bool success) {
         if (success) {

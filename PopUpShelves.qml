@@ -367,6 +367,17 @@ Item{
         }
     }
 
+    DropShadow {
+        anchors.fill: popUpStart
+        source: popUpStart
+        horizontalOffset: root.defMargin / 2
+        verticalOffset: root.defMargin / 2
+        radius: 8.0
+        samples: 17
+        color: root.shadowColor
+        opacity: 0.8
+        visible: popUpStart.opacity > 0.9
+    }
     PopUpStart{
         id: popUpStart
         anchors.verticalCenter: parent.verticalCenter

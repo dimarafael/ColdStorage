@@ -14,6 +14,8 @@ Window {
     readonly property color shadowColor: "#88000000"
     readonly property color colorKometaGreen: "#416f4c"
 
+    property bool showSettings: false
+
     LinearGradient{
         anchors.fill: parent
         start: Qt.point(window.width / 4,height)
@@ -120,9 +122,9 @@ Window {
                     id: mouseAreaGear
                     anchors.fill: parent
                     onClicked: {
-                        // window.showSettings = !window.showSettings
-                        // itemSettings.unlocked = false
-                        // itemSettings.hideAllPopUps()
+                        window.showSettings = !window.showSettings
+                        itemSettings.unlocked = false
+                        itemSettings.hideAllPopUps()
                         focus: true
                     }
                 }
@@ -179,8 +181,28 @@ Window {
                 }
             }
         }
-    } // itemRootContent
 
+        SettingsPanel {
+            id: itemSettings
+            width: parent.width
+            height: parent.height - topMenu.height
+            x: 0
+            y: window.showSettings ? topMenu.height + window.defMargin : window.height
+            defMargin: window.defMargin
+            fontSize: height / 30
+
+            Behavior on y{
+                NumberAnimation{
+                    duration: 150
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            onHidePanel: {
+                window.showSettings = false
+                itemSettings.unlocked = false
+            }
+        }
+    } // itemRootContent
 
     Rectangle{
         id:popUpBG
