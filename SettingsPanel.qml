@@ -320,7 +320,7 @@ Item {
                             onClicked: {
                                 focus: true
                                 console.log("Delete " + delegate.index)
-                                root.indexForDeleteEdit = delegate.index
+                                root.indexForDeleteEdit = delegate.productId
                                 root.nameForDeleteEdit = delegate.productName
                                 popUpDelete.visible = true
                             }
@@ -443,6 +443,7 @@ Item {
         color: "white"
         anchors.centerIn: parent
         visible: false
+        clip: true
         Text{
             id: txtPopUpDeleteLine1
             width: parent.width
@@ -514,7 +515,8 @@ Item {
                     id: mouseAreaDeleteOk
                     anchors.fill: parent
                     onClicked: {
-                        ProductsModel.remove(root.indexForDeleteEdit)
+                        console.log("Delete: " + root.nameForDeleteEdit + " Id: " + root.indexForDeleteEdit)
+                        // Products.remove(root.indexForDeleteEdit)
                         popUpDelete.visible = false
                     }
                 }
