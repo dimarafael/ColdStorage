@@ -21,7 +21,7 @@ public:
 
     void get(const QString &url, std::function<void(QJsonObject)> callback);
     void post(const QString &url, const QJsonObject &data, std::function<void(bool)> callback);
-    void del(const QString &url, std::function<void(bool)> callback);
+    void del(const QString &url, const QJsonObject &data, std::function<void(bool)> callback);
 
 private:
     QNetworkAccessManager m_manager;

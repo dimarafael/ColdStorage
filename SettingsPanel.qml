@@ -516,7 +516,7 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Delete: " + root.nameForDeleteEdit + " Id: " + root.indexForDeleteEdit)
-                        // Products.remove(root.indexForDeleteEdit)
+                        Products.removeProduct(root.indexForDeleteEdit)
                         popUpDelete.visible = false
                     }
                 }

@@ -38,6 +38,7 @@ public:
 
     Q_INVOKABLE Product getProductById(int id) const;
     Q_INVOKABLE QString getProductNameById(int id);
+    Q_INVOKABLE void removeProduct(int id);
 
     // QAbstractItemModel interface
 public:

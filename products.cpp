@@ -47,6 +47,21 @@ QString Products::getProductNameById(int id)
     return getProductById(id).name;
 }
 
+void Products::removeProduct(int id)
+{
+    QJsonObject data;
+    data["id"] = id;
+
+    api.del("/mt5c43cjt40an63/records", data, [this](bool success) {
+        if (success) {
+            this->loadProducts();
+            qDebug() << "Product deleted";
+        } else {
+            qDebug() << "Error in deleting the product";
+        }
+    });
+}
+
 Products::Products(QObject *parent)
     : QAbstractListModel{parent}
 {

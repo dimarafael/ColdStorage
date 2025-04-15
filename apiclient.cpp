@@ -37,12 +37,17 @@ void ApiClient::post(const QString &endpoint, const QJsonObject &data, std::func
     });
 }
 
-void ApiClient::del(const QString &endpoint, std::function<void(bool)> callback) {
+void ApiClient::del(const QString &endpoint, const QJsonObject &data, std::function<void(bool)> callback) {
     QNetworkRequest request((QUrl(Constants::API_BASE_URL + endpoint)));
     request.setRawHeader("xc-token", Constants::API_TOKEN.toUtf8());
-    auto reply = m_manager.deleteResource(request);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    auto reply = m_manager.sendCustomRequest(request, "DELETE", QJsonDocument(data).toJson());
 
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
+        if (reply->error() != QNetworkReply::NoError){
+            qDebug() << "DELETE API error: " << reply->errorString() + " URL: " << reply->url();
+        }
         callback(reply->error() == QNetworkReply::NoError);
         reply->deleteLater();
     });
