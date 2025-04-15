@@ -280,8 +280,12 @@ Item {
                             onClicked: {
                                 focus: true
                                 console.log("Edit " + delegate.index)
-                                txtEditLine2.text = delegate.productName
-                                popUpAddEdit.index = delegate.index
+                                setpointCode.text = delegate.productCode
+                                txtProdName.text = delegate.productName
+                                setpointStage1.text = delegate.stage1Hours
+                                setpointStage2.text = delegate.stage2Hours
+                                setpointStage3.text = delegate.stage3Hours
+                                popUpAddEdit.index = delegate.productId
                                 popUpAddEdit.isEdit = true
                                 popUpAddEdit.visible = true
                             }
@@ -397,10 +401,15 @@ Item {
                     id: mouseAddSettings
                     anchors.fill: parent
                     onClicked: {
-                        txtEditLine2.text = ""
                         popUpAddEdit.index = 0
                         popUpAddEdit.isEdit = false
                         popUpAddEdit.visible = true
+
+                        setpointCode.text = ""
+                        txtProdName.text = ""
+                        setpointStage1.text = ""
+                        setpointStage2.text = ""
+                        setpointStage3.text = ""
                     }
                 }
             }
@@ -526,13 +535,13 @@ Item {
 
     Rectangle{
         id: popUpAddEdit
-        width: parent.width / 2
-        height: parent.height / 2
+        width: parent.width * 0.7
+        height: parent.height * 0.7
         radius: root.defMargin
         color: "white"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: height / 8
+        anchors.topMargin: height * 0.01
         visible: false
         property bool mode: false
         property int index: 0
@@ -541,7 +550,7 @@ Item {
         Item {
             id: popUpEditLine1
             width: parent.width
-            height: parent.height / 4
+            height: parent.height / 6
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             Text{
@@ -550,7 +559,7 @@ Item {
                 // height: parent.height
                 // anchors.top: parent.top
                 anchors.fill: parent
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "#416f4c"
                 font.pixelSize: root.fontSize * 2
@@ -563,18 +572,54 @@ Item {
         Item {
             id: popUpEditLine2
             width: parent.width
-            height: parent.height / 4
+            height: parent.height / 5
             // anchors.verticalCenter: parent.verticalCenter
             anchors.top: popUpEditLine1.bottom
             anchors.horizontalCenter: parent.horizontalCenter
 
-            TextField{
-                id: txtEditLine2
-                width: parent.width * 0.8
-                height: parent.height * 0.6
-                anchors.centerIn: parent
-                inputMethodHints: Qt.ImhNoTextHandles // | hide selection handles
+            Text{
+                id: txtLblCode
+                anchors.bottom: setpointCode.top
+                anchors.horizontalCenter: setpointCode.horizontalCenter
                 font.pixelSize: root.fontSize
+                color: "#416f4c"
+                text: "Code"
+            }
+
+            SetpointField{
+                id: setpointCode
+                anchors.left: parent.left
+                anchors.leftMargin: root.fontSize
+                anchors.top: parent.top
+                anchors.topMargin: height / 2
+                width: parent.width * 0.2
+                height: parent.height * 0.6
+
+                minVal: 1
+                maxVal: 9999
+            }
+
+            Text{
+                id: txtLblName
+                anchors.bottom: txtProdName.top
+                anchors.horizontalCenter: txtProdName.horizontalCenter
+                font.pixelSize: root.fontSize
+                color: "#416f4c"
+                text: "Product name"
+            }
+
+            TextField{
+                id: txtProdName
+                // width: parent.width * 0.6
+                height: parent.height * 0.6
+                anchors.top: parent.top
+                anchors.topMargin: height / 2
+                anchors.right: parent.right
+                anchors.rightMargin: root.fontSize
+                anchors.left: setpointCode.right
+                anchors.leftMargin: root.fontSize
+                inputMethodHints: Qt.ImhNoTextHandles // | hide selection handles
+                font.pixelSize: height*0.7
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
 
@@ -585,7 +630,7 @@ Item {
 
                 background: Rectangle {
                     color: "#00FFFFFF"
-                    border.width: 2
+                    border.width: parent.activeFocus ? 2 : 1
                     border.color: parent.activeFocus ? "#416f4c" : "lightgray"
                     Behavior on border.color {
                         ColorAnimation {
@@ -598,9 +643,79 @@ Item {
 
         Item {
             id: popUpEditLine3
-            width: parent.width * 0.9
-            height: parent.height / 2
+            width: parent.width
+            height: parent.height / 5
             anchors.top: popUpEditLine2.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Text{
+                id: txtLblStage1
+                anchors.bottom: setpointStage1.top
+                anchors.horizontalCenter: setpointStage1.horizontalCenter
+                font.pixelSize: root.fontSize
+                color: "#416f4c"
+                text: "Stage 1 hours"
+            }
+            SetpointField{
+                id: setpointStage1
+                anchors.left: parent.left
+                anchors.leftMargin: root.fontSize
+                anchors.top: parent.top
+                anchors.topMargin: height / 2
+                width: parent.width * 0.2
+                height: parent.height * 0.6
+
+                minVal: 1
+                maxVal: 9999
+            }
+
+            Text{
+                id: txtLblStage2
+                anchors.bottom: setpointStage2.top
+                anchors.horizontalCenter: setpointStage2.horizontalCenter
+                font.pixelSize: root.fontSize
+                color: "#416f4c"
+                text: "Stage 2 hours"
+            }
+            SetpointField{
+                id: setpointStage2
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: height / 2
+                width: parent.width * 0.2
+                height: parent.height * 0.6
+
+                minVal: 1
+                maxVal: 9999
+            }
+
+            Text{
+                id: txtLblStage3
+                anchors.bottom: setpointStage3.top
+                anchors.horizontalCenter: setpointStage3.horizontalCenter
+                font.pixelSize: root.fontSize
+                color: "#416f4c"
+                text: "Stage 3 hours"
+            }
+            SetpointField{
+                id: setpointStage3
+                anchors.right: parent.right
+                anchors.rightMargin: root.fontSize
+                anchors.top: parent.top
+                anchors.topMargin: height / 2
+                width: parent.width * 0.2
+                height: parent.height * 0.6
+
+                minVal: 1
+                maxVal: 9999
+            }
+        }
+
+        Item {
+            id: popUpEditLine4
+            width: parent.width * 0.7
+            height: parent.height * 0.4
+            anchors.top: popUpEditLine3.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             Rectangle{
                 id: btnPopUpEditCancel
@@ -644,21 +759,40 @@ Item {
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        if(txtEditLine2.text.length > 0){
-                            if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine2.text);
-                            else{
-                                ProductsModel.append(txtEditLine2.text);
-                                listProducts.positionViewAtEnd();
-                            }
-                            popUpAddEdit.visible = false
-                        }
+                        if(parseInt(setpointCode.text) > 0)
+                        {
+                            if(txtProdName.text.length > 0){
+                                if(parseInt(setpointStage1.text) > 0){
+                                    if((parseInt(setpointStage2.text) > 0) &&
+                                            (parseInt(setpointStage2.text) > parseInt(setpointStage1.text))){
+                                        if((parseInt(setpointStage3.text) > 0) &&
+                                                (parseInt(setpointStage3.text) > parseInt(setpointStage2.text))){
+                                            if(popUpAddEdit.isEdit){
+                                                // Products.set(popUpAddEdit.index, txtProdName.text);
+                                            }
+                                            else{
+                                                // Products.append(txtProdName.text);
+                                                listProducts.positionViewAtEnd();
+                                            }
+
+                                            console.log("Product :" + parseInt(setpointCode.text) + " : " +
+                                                        txtProdName.text + " : " +
+                                                        parseInt(setpointStage1.text) + " : " +
+                                                        parseInt(setpointStage2.text) + " : " +
+                                                        parseInt(setpointStage3.text) +
+                                                        " ID=" + popUpAddEdit.index)
+
+                                            popUpAddEdit.visible = false
+                                        }else setpointStage3.setFocus()
+                                    }else setpointStage2.setFocus()
+                                }else setpointStage1.setFocus()
+                            }else txtProdName.focus = true
+                        } else setpointCode.setFocus()
                     }
                 }
             }
         }
-
     }// popUpAddEdit
-
 
     Item{ // show password field
         id: itemPass
