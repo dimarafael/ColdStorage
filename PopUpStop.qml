@@ -31,6 +31,11 @@ Rectangle{
             popUpStop.visible = true
     }
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: popUpStop.focus = true
+    }
+
     Text{
         id: txtPopUpStopLine1
         width: parent.width

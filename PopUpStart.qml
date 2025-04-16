@@ -47,6 +47,11 @@ Rectangle{
         }
     }
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: root.focus = true
+    }
+
     Text{
         id: txtLine1
         width: parent.width
