@@ -19,9 +19,10 @@ class ApiClient : public QObject
 public:
     explicit ApiClient(QObject *parent = nullptr);
 
-    void get(const QString &url, std::function<void(QJsonObject)> callback);
-    void post(const QString &url, const QJsonObject &data, std::function<void(bool)> callback);
-    void del(const QString &url, const QJsonObject &data, std::function<void(bool)> callback);
+    void get(const QString &endpoint, std::function<void(QJsonObject)> callback);
+    void post(const QString &endpoint, const QJsonObject &data, std::function<void(bool)> callback);
+    void del(const QString &endpoint, const QJsonObject &data, std::function<void(bool)> callback);
+    void patch(const QString &endpoint, const QJsonObject &data, std::function<void(bool)> callback);
 
 private:
     QNetworkAccessManager m_manager;

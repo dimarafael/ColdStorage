@@ -52,3 +52,20 @@ void ApiClient::del(const QString &endpoint, const QJsonObject &data, std::funct
         reply->deleteLater();
     });
 }
+
+void ApiClient::patch(const QString &endpoint, const QJsonObject &data, std::function<void (bool)> callback)
+{
+    QNetworkRequest request((QUrl(Constants::API_BASE_URL + endpoint)));
+    request.setRawHeader("xc-token", Constants::API_TOKEN.toUtf8());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    auto reply = m_manager.sendCustomRequest(request, "PATCH", QJsonDocument(data).toJson());
+
+    connect(reply, &QNetworkReply::finished, this, [this, reply, callback]() {
+        if (reply->error() != QNetworkReply::NoError){
+            qDebug() << "PATCH API error: " << reply->errorString() + " URL: " << reply->url();
+        }
+        callback(reply->error() == QNetworkReply::NoError);
+        reply->deleteLater();
+    });
+}

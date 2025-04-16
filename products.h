@@ -39,6 +39,8 @@ public:
     Q_INVOKABLE Product getProductById(int id) const;
     Q_INVOKABLE QString getProductNameById(int id);
     Q_INVOKABLE void removeProduct(int id);
+    Q_INVOKABLE void addProduct(int code, QString name, float stage1Hours, float stage2Hours, float stage3Hours);
+    Q_INVOKABLE void modifyProduct(int id, int code, QString name, float stage1Hours, float stage2Hours, float stage3Hours);
 
     // QAbstractItemModel interface
 public:

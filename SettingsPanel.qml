@@ -279,7 +279,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 focus: true
-                                console.log("Edit " + delegate.index)
+                                // console.log("Edit " + delegate.index)
                                 setpointCode.text = delegate.productCode
                                 txtProdName.text = delegate.productName
                                 setpointStage1.text = delegate.stage1Hours
@@ -323,7 +323,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 focus: true
-                                console.log("Delete " + delegate.index)
+                                // console.log("Delete " + delegate.index)
                                 root.indexForDeleteEdit = delegate.productId
                                 root.nameForDeleteEdit = delegate.productName
                                 popUpDelete.visible = true
@@ -524,7 +524,7 @@ Item {
                     id: mouseAreaDeleteOk
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Delete: " + root.nameForDeleteEdit + " Id: " + root.indexForDeleteEdit)
+                        // console.log("Delete: " + root.nameForDeleteEdit + " Id: " + root.indexForDeleteEdit)
                         Products.removeProduct(root.indexForDeleteEdit)
                         popUpDelete.visible = false
                     }
@@ -768,19 +768,21 @@ Item {
                                         if((parseInt(setpointStage3.text) > 0) &&
                                                 (parseInt(setpointStage3.text) > parseInt(setpointStage2.text))){
                                             if(popUpAddEdit.isEdit){
-                                                // Products.set(popUpAddEdit.index, txtProdName.text);
+                                                Products.modifyProduct(popUpAddEdit.index,
+                                                                    parseInt(setpointCode.text),
+                                                                    txtProdName.text,
+                                                                    parseInt(setpointStage1.text),
+                                                                    parseInt(setpointStage2.text),
+                                                                    parseInt(setpointStage3.text));
                                             }
                                             else{
-                                                // Products.append(txtProdName.text);
+                                                Products.addProduct(parseInt(setpointCode.text),
+                                                                    txtProdName.text,
+                                                                    parseInt(setpointStage1.text),
+                                                                    parseInt(setpointStage2.text),
+                                                                    parseInt(setpointStage3.text));
                                                 listProducts.positionViewAtEnd();
                                             }
-
-                                            console.log("Product :" + parseInt(setpointCode.text) + " : " +
-                                                        txtProdName.text + " : " +
-                                                        parseInt(setpointStage1.text) + " : " +
-                                                        parseInt(setpointStage2.text) + " : " +
-                                                        parseInt(setpointStage3.text) +
-                                                        " ID=" + popUpAddEdit.index)
 
                                             popUpAddEdit.visible = false
                                         }else setpointStage3.setFocus()

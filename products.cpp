@@ -62,6 +62,49 @@ void Products::removeProduct(int id)
     });
 }
 
+void Products::addProduct(int code, QString name, float stage1Hours, float stage2Hours, float stage3Hours)
+{
+    // qDebug() << " Add product: " << code << " : " << name << " : " << stage1Hours << " : " << stage2Hours << " : " << stage3Hours;
+
+    QJsonObject data;
+
+    data["code"] = code;
+    data["name"] = name;
+    data["stage1Hours"] = stage1Hours;
+    data["stage2Hours"] = stage2Hours;
+    data["stage3Hours"] = stage3Hours;
+
+    api.post("/mt5c43cjt40an63/records", data, [this](bool success) {
+        if (success) {
+            this->loadProducts();
+            // qDebug() << "Record added in shelf_products";
+        } else {
+            qDebug() << "Error in adding the record in products";
+        }
+    });
+}
+
+void Products::modifyProduct(int id, int code, QString name, float stage1Hours, float stage2Hours, float stage3Hours)
+{
+    QJsonObject data;
+
+    data["id"] = id;
+    data["code"] = code;
+    data["name"] = name;
+    data["stage1Hours"] = stage1Hours;
+    data["stage2Hours"] = stage2Hours;
+    data["stage3Hours"] = stage3Hours;
+
+    api.patch("/mt5c43cjt40an63/records", data, [this](bool success) {
+        if (success) {
+            this->loadProducts();
+            // qDebug() << "Record added in shelf_products";
+        } else {
+            qDebug() << "Error in midification the record in products";
+        }
+    });
+}
+
 Products::Products(QObject *parent)
     : QAbstractListModel{parent}
 {
