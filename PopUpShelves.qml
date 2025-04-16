@@ -131,7 +131,7 @@ Item{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    console.log(root.placeName + " : shelf=" + index + " ocupated=" + ocupated)
+                    // console.log(root.placeName + " : shelf=" + index + " ocupated=" + ocupated)
                     root.x = (window.width - root.width) / 2 - window.width * 0.25
                     if (ocupated) {
                         popUpStart.opacity = 0
@@ -278,9 +278,19 @@ Item{
 
                 Text {
                     anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
+                    anchors.rightMargin: itemTopPart.anchors.leftMargin
+                    horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
                     text: elapsed
+                    font.pixelSize: parent.height * 0.7
+                }
+
+                Text {
+                    anchors.fill: parent
+                    anchors.leftMargin: itemTopPart.anchors.leftMargin
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    text: weight.toFixed(1) + "kg"
                     font.pixelSize: parent.height * 0.7
                 }
 

@@ -10,7 +10,8 @@ Shelves::Shelves(QObject *parent, int quantity, int placeId)
                           QDateTime::currentDateTime(), // timeStamp
                           0, // stage
                           0, // progress
-                          0}); // elapsed
+                          0, // elapsed
+                          0}); // weight
     }
     m_timerRecalculateShelves = new QTimer(this);
     m_timerRecalculateShelves->setInterval(60000);
@@ -43,6 +44,7 @@ void Shelves::loadShelves()
                 m_shelves[shelf].stage = ocupated ? calculateStage(productId, timeStamp) : -1;
                 m_shelves[shelf].progress = ocupated ? calculateProgress(productId, timeStamp) : 0;
                 m_shelves[shelf].elapsed = ocupated ? getElapsedText(timeStamp) : "";
+                m_shelves[shelf].weight = ocupated ? static_cast<float>(obj["weight"].toDouble()) : 0;
             }
         }
 
@@ -85,6 +87,8 @@ QVariant Shelves::data(const QModelIndex &index, int role) const
         return shelf.progress;
     case ElapsedRole:
         return shelf.elapsed;
+    case WeightRole:
+        return shelf.weight;
     }
 
     return QVariant();
@@ -98,7 +102,8 @@ QHash<int, QByteArray> Shelves::roleNames() const
         {TimeStampRole,"timeStamp"},
         {StageRole,"stage"},
         {StageProgressRole,"progress"},
-        {ElapsedRole,"elapsed"}
+        {ElapsedRole,"elapsed"},
+        {WeightRole,"weight"}
     };
 }
 

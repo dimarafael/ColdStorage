@@ -15,6 +15,7 @@ struct Shelf{
     int stage;
     float progress;
     QString elapsed;
+    float weight;
 };
 
 class Shelves : public QAbstractListModel
@@ -28,7 +29,8 @@ public:
         TimeStampRole,
         StageRole,
         StageProgressRole,
-        ElapsedRole
+        ElapsedRole,
+        WeightRole
     };
 
     void loadShelves();
